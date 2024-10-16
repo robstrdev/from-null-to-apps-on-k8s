@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+  namespace: webapp
+spec:
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 9020
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 9020
+        image: ghcr.io/robstrdev/null-to-apps-on-k8s:v1.2.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 9020
