@@ -12,20 +12,20 @@ func main() {
 	app := fiber.New()
 	app.Use(logger.New())
 
-	// Health check endpoint, returns "OK" if the server is running.
-	// Used by Kubernetes to check if everything is fine.
-	app.Get("/healthz", func(c *fiber.Ctx) error {
-		return c.SendString("OK")
-	})
+	// Serve static files from the "public" directory.
+	// This is where the compiled frontend code will be.
+	app.Static("/", "./public")
 
 	// Example API endpoint, returns "Hello, World!".
 	app.Get("/api", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
 
-	// Serve static files from the "public" directory.
-	// This is where the compiled frontend code will be.
-	app.Static("/", "./public")
+	// Health check endpoint, returns "OK" if the server is running.
+	// Used by Kubernetes to check if everything is fine.
+	app.Get("/healthz", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
+	})
 
 	// Get the port from the environment variable "SERVER_PORT".
 	port := os.Getenv("SERVER_PORT")
