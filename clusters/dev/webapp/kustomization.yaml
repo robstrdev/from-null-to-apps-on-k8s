@@ -9,4 +9,4 @@ bases:
 namePrefix: dev-
 replicas:
   - name: demo
-    count: 1
+    count: 3
